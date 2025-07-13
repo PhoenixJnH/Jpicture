@@ -45,12 +45,12 @@ knife4j:
         api-rule-resources:
           - com.jh.picturebackend.controller
 
-## 对象存储配置（需要从腾讯云获取）
-#cos:
-#  client:
-#    host: xxx
-#    secretId: xxx
-#    secretKey: xxx
-#    region: xxx
-#    bucket: xxx
+# 对象存储配置（需要从腾讯云获取）
+cos:
+  client:
+    host: https://picture1-1319084171.cos.ap-chengdu.myqcloud.com
+    secretId: AKIDMet372rcGrNhr3KZcUBgy3utwtpeKo59
+    secretKey: xjJf3kWBkCSYR6ZpshKlz0nW3MRIyRgi
+    region: ap-chengdu
+    bucket: picture1-1319084171
 

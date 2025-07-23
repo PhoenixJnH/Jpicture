@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class UrlPictureUpload  extends PictureUploadTemplate
+public class UrlPictureUpload extends PictureUploadTemplate
 {
 
     @Override

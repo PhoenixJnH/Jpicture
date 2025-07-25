@@ -22,12 +22,16 @@ public enum PictureReviewStatusEnum
     /**
      * 根据 value 获取枚举
      */
-    public static PictureReviewStatusEnum getEnumByValue(Integer value) {
-        if (ObjUtil.isEmpty(value)) {
+    public static PictureReviewStatusEnum getEnumByValue(Integer value)
+    {
+        if (ObjUtil.isEmpty(value))
+        {
             return null;
         }
-        for (PictureReviewStatusEnum pictureReviewStatusEnum : PictureReviewStatusEnum.values()) {
-            if (pictureReviewStatusEnum.value == value) {
+        for (PictureReviewStatusEnum pictureReviewStatusEnum : PictureReviewStatusEnum.values())
+        {
+            if (pictureReviewStatusEnum.value == value)
+            {
                 return pictureReviewStatusEnum;
             }
         }

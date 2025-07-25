@@ -4,15 +4,18 @@ import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import lombok.Data;
 
 /**
  * 图片
+ *
  * @TableName picture
  */
-@TableName(value ="picture")
+@TableName(value = "picture")
 @Data
-public class Picture implements Serializable {
+public class Picture implements Serializable
+{
     /**
      * id
      */

@@ -3,7 +3,8 @@ package com.jh.picturebackend.constant;
 /**
  * 用户常量
  */
-public interface UserConstant {
+public interface UserConstant
+{
 
     /**
      * 用户登录态键

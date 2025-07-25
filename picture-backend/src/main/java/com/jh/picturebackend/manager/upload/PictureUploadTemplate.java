@@ -32,10 +32,12 @@ public abstract class PictureUploadTemplate
 
     @Resource
     protected CosClientConfig cosClientConfig;
+
     /**
      * 模板方法，定义上传流程
      */
-    public final UploadPictureResult uploadPicture(Object inputSource, String uploadPathPrefix) {
+    public final UploadPictureResult uploadPicture(Object inputSource, String uploadPathPrefix)
+    {
         // 1. 校验图片
         validPicture(inputSource);
 
@@ -47,7 +49,8 @@ public abstract class PictureUploadTemplate
         String uploadPath = String.format("/%s/%s", uploadPathPrefix, uploadFilename);
 
         File file = null;
-        try {
+        try
+        {
             // 3. 创建临时文件
             file = File.createTempFile(uploadPath, null);
             // 处理文件来源（本地或 URL）
@@ -58,30 +61,35 @@ public abstract class PictureUploadTemplate
             ImageInfo imageInfo = putObjectResult.getCiUploadResult().getOriginalInfo().getImageInfo();
             ProcessResults processResults = putObjectResult.getCiUploadResult().getProcessResults();
             List<CIObject> objectList = processResults.getObjectList();
-            if (CollUtil.isNotEmpty(objectList)) {
+            if (CollUtil.isNotEmpty(objectList))
+            {
                 CIObject compressedCiObject = objectList.get(0);
                 // 缩略图默认等于压缩图
                 CIObject thumbnailCiObject = compressedCiObject;
-                if (objectList.size() > 1) {
+                if (objectList.size() > 1)
+                {
                     thumbnailCiObject = objectList.get(1);
                 }
                 // 封装压缩图返回结果
-                return buildResult(originFilename, compressedCiObject,thumbnailCiObject,imageInfo);
+                return buildResult(originFilename, compressedCiObject, thumbnailCiObject, imageInfo);
             }
             // 封装原图返回结果
             return buildResult(originFilename, file, uploadPath, imageInfo);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             log.error("图片上传到对象存储失败", e);
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "上传失败");
-        } finally {
+        } finally
+        {
             // 6. 清理临时文件
             deleteTempFile(file);
         }
     }
+
     /**
      * 封装返回结果（压缩后的）
      */
-    private UploadPictureResult buildResult(String originFilename, CIObject compressedCiObject,CIObject thumbnailCiObject,
+    private UploadPictureResult buildResult(String originFilename, CIObject compressedCiObject, CIObject thumbnailCiObject,
                                             ImageInfo imageInfo)
     {
         UploadPictureResult uploadPictureResult = new UploadPictureResult();
@@ -118,7 +126,8 @@ public abstract class PictureUploadTemplate
     /**
      * 封装返回结果
      */
-    private UploadPictureResult buildResult(String originFilename, File file, String uploadPath, ImageInfo imageInfo) {
+    private UploadPictureResult buildResult(String originFilename, File file, String uploadPath, ImageInfo imageInfo)
+    {
         UploadPictureResult uploadPictureResult = new UploadPictureResult();
         int picWidth = imageInfo.getWidth();
         int picHeight = imageInfo.getHeight();
@@ -137,12 +146,15 @@ public abstract class PictureUploadTemplate
     /**
      * 删除临时文件
      */
-    public void deleteTempFile(File file) {
-        if (file == null) {
+    public void deleteTempFile(File file)
+    {
+        if (file == null)
+        {
             return;
         }
         boolean deleteResult = file.delete();
-        if (!deleteResult) {
+        if (!deleteResult)
+        {
             log.error("file delete error, filepath = {}", file.getAbsolutePath());
         }
     }

@@ -73,19 +73,21 @@ public class AliYunAiApi
      * @param taskId
      * @return
      */
-     public GetOutPaintingTaskResponse getOutPaintingTask(String taskId)
-     {
-         if (StrUtil.isBlank(taskId))
-         {
-             throw new BusinessException(ErrorCode.OPERATION_ERROR, "任务 id 不能为空");
-         }
-         try (HttpResponse httpResponse = HttpRequest.get(String.format(GET_OUT_PAINTING_TASK_URL, taskId))
-                 .header(Header.AUTHORIZATION, "Bearer " + apiKey)
-                 .execute()) {
-             if (!httpResponse.isOk()) {
-                 throw new BusinessException(ErrorCode.OPERATION_ERROR, "获取任务失败");
-             }
-             return JSONUtil.toBean(httpResponse.body(), GetOutPaintingTaskResponse.class);
-         }
-     }
+    public GetOutPaintingTaskResponse getOutPaintingTask(String taskId)
+    {
+        if (StrUtil.isBlank(taskId))
+        {
+            throw new BusinessException(ErrorCode.OPERATION_ERROR, "任务 id 不能为空");
+        }
+        try (HttpResponse httpResponse = HttpRequest.get(String.format(GET_OUT_PAINTING_TASK_URL, taskId))
+                .header(Header.AUTHORIZATION, "Bearer " + apiKey)
+                .execute())
+        {
+            if (!httpResponse.isOk())
+            {
+                throw new BusinessException(ErrorCode.OPERATION_ERROR, "获取任务失败");
+            }
+            return JSONUtil.toBean(httpResponse.body(), GetOutPaintingTaskResponse.class);
+        }
+    }
 }

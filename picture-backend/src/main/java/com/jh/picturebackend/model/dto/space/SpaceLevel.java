@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SpaceLevel {
+public class SpaceLevel
+{
 
     private int value;
 

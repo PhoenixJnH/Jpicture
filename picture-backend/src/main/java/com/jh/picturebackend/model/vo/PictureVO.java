@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -108,13 +109,20 @@ public class PictureVO implements Serializable
      */
     private String picColor;
 
+    /**
+     * 权限列表
+     */
+    private List<String> permissionList = new ArrayList<>();
+
     private static final long serialVersionUID = 1L;
 
     /**
      * 封装类转对象
      */
-    public static Picture voToObj(PictureVO pictureVO) {
-        if (pictureVO == null) {
+    public static Picture voToObj(PictureVO pictureVO)
+    {
+        if (pictureVO == null)
+        {
             return null;
         }
         Picture picture = new Picture();
@@ -127,8 +135,10 @@ public class PictureVO implements Serializable
     /**
      * 对象转封装类
      */
-    public static PictureVO objToVo(Picture picture) {
-        if (picture == null) {
+    public static PictureVO objToVo(Picture picture)
+    {
+        if (picture == null)
+        {
             return null;
         }
         PictureVO pictureVO = new PictureVO();

@@ -6,7 +6,8 @@ import lombok.Data;
  * 以图搜图
  */
 @Data
-public class ImageSearchResult {
+public class ImageSearchResult
+{
 
     /**
      * 缩略图地址

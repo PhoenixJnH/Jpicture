@@ -9,7 +9,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @MapperScan("com.jh.picturebackend.mapper")
-public class MyBatisPlusConfig {
+public class MyBatisPlusConfig
+{
 
     /**
      * 拦截器配置
@@ -17,7 +18,8 @@ public class MyBatisPlusConfig {
      * @return {@link MybatisPlusInterceptor}
      */
     @Bean
-    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+    public MybatisPlusInterceptor mybatisPlusInterceptor()
+    {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         // 分页插件
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));

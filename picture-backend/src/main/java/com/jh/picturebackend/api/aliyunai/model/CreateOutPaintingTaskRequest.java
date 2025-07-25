@@ -26,7 +26,8 @@ public class CreateOutPaintingTaskRequest implements Serializable
     private Parameters parameters;
 
     @Data
-    public static class Input {
+    public static class Input
+    {
         /**
          * 必选，图像 URL
          */
@@ -35,7 +36,8 @@ public class CreateOutPaintingTaskRequest implements Serializable
     }
 
     @Data
-    public static class Parameters implements Serializable {
+    public static class Parameters implements Serializable
+    {
         /**
          * 可选，逆时针旋转角度，默认值 0，取值范围 [0, 359]
          */

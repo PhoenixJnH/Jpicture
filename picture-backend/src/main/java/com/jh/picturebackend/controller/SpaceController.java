@@ -12,6 +12,7 @@ import com.jh.picturebackend.constant.UserConstant;
 import com.jh.picturebackend.exception.BusinessException;
 import com.jh.picturebackend.exception.ErrorCode;
 import com.jh.picturebackend.exception.ThrowUtils;
+import com.jh.picturebackend.manager.auth.SpaceUserAuthManager;
 import com.jh.picturebackend.model.dto.picture.*;
 import com.jh.picturebackend.model.dto.space.*;
 import com.jh.picturebackend.model.entity.Picture;
@@ -52,9 +53,13 @@ public class SpaceController
     @Resource
     private SpaceService spaceService;
 
+    @Resource
+    private SpaceUserAuthManager spaceUserAuthManager;
+
 
     @PostMapping("/add")
-    public BaseResponse<Long> addSpace(@RequestBody SpaceAddRequest spaceAddRequest, HttpServletRequest request) {
+    public BaseResponse<Long> addSpace(@RequestBody SpaceAddRequest spaceAddRequest, HttpServletRequest request)
+    {
         ThrowUtils.throwIf(spaceAddRequest == null, ErrorCode.PARAMS_ERROR);
         User loginUser = userService.getLoginUser(request);
         long newId = spaceService.addSpace(spaceAddRequest, loginUser);
@@ -63,8 +68,10 @@ public class SpaceController
 
     @PostMapping("/delete")
     public BaseResponse<Boolean> deleteSpace(@RequestBody DeleteRequest deleteRequest
-            , HttpServletRequest request) {
-        if (deleteRequest == null || deleteRequest.getId() <= 0) {
+            , HttpServletRequest request)
+    {
+        if (deleteRequest == null || deleteRequest.getId() <= 0)
+        {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         User loginUser = userService.getLoginUser(request);
@@ -73,7 +80,7 @@ public class SpaceController
         Space oldSpace = spaceService.getById(id);
         ThrowUtils.throwIf(oldSpace == null, ErrorCode.NOT_FOUND_ERROR);
         // 仅本人或者管理员可删除
-        spaceService.checkSpaceAuth(loginUser,oldSpace);
+        spaceService.checkSpaceAuth(loginUser, oldSpace);
         // 操作数据库
         boolean result = spaceService.removeById(id);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
@@ -90,8 +97,10 @@ public class SpaceController
     @PostMapping("/update")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> updateSpace(@RequestBody SpaceUpdateRequest spaceUpdateRequest,
-                                             HttpServletRequest request) {
-        if (spaceUpdateRequest == null || spaceUpdateRequest.getId() <= 0) {
+                                             HttpServletRequest request)
+    {
+        if (spaceUpdateRequest == null || spaceUpdateRequest.getId() <= 0)
+        {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         // 将实体类和 DTO 进行转换
@@ -116,7 +125,8 @@ public class SpaceController
      */
     @GetMapping("/get")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Space> getSpaceById(long id, HttpServletRequest request) {
+    public BaseResponse<Space> getSpaceById(long id, HttpServletRequest request)
+    {
         ThrowUtils.throwIf(id <= 0, ErrorCode.PARAMS_ERROR);
         // 查询数据库
         Space space = spaceService.getById(id);
@@ -129,13 +139,16 @@ public class SpaceController
      * 根据 id 获取空间（封装类）
      */
     @GetMapping("/get/vo")
-    public BaseResponse<SpaceVO> getSpaceVOById(long id, HttpServletRequest request) {
+    public BaseResponse<SpaceVO> getSpaceVOById(long id, HttpServletRequest request)
+    {
         ThrowUtils.throwIf(id <= 0, ErrorCode.PARAMS_ERROR);
         // 查询数据库
         Space space = spaceService.getById(id);
         ThrowUtils.throwIf(space == null, ErrorCode.NOT_FOUND_ERROR);
         SpaceVO spaceVO = spaceService.getSpaceVO(space, request);
         User loginUser = userService.getLoginUser(request);
+        List<String> permissionList = spaceUserAuthManager.getPermissionList(space, loginUser);
+        spaceVO.setPermissionList(permissionList);
         // 获取封装类
         return ResultUtils.success(spaceVO);
     }
@@ -145,7 +158,8 @@ public class SpaceController
      */
     @PostMapping("/list/page")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Page<Space>> listSpaceByPage(@RequestBody SpaceQueryRequest spaceQueryRequest) {
+    public BaseResponse<Page<Space>> listSpaceByPage(@RequestBody SpaceQueryRequest spaceQueryRequest)
+    {
         long current = spaceQueryRequest.getCurrent();
         long size = spaceQueryRequest.getPageSize();
         // 查询数据库
@@ -159,7 +173,8 @@ public class SpaceController
      */
     @PostMapping("/list/page/vo")
     public BaseResponse<Page<SpaceVO>> listSpaceVOByPage(@RequestBody SpaceQueryRequest spaceQueryRequest,
-                                                         HttpServletRequest request) {
+                                                         HttpServletRequest request)
+    {
         long current = spaceQueryRequest.getCurrent();
         long size = spaceQueryRequest.getPageSize();
         // 限制爬虫
@@ -175,8 +190,10 @@ public class SpaceController
      * 编辑空间（给用户使用）
      */
     @PostMapping("/edit")
-    public BaseResponse<Boolean> editSpace(@RequestBody SpaceEditRequest spaceEditRequest, HttpServletRequest request) {
-        if (spaceEditRequest == null || spaceEditRequest.getId() <= 0) {
+    public BaseResponse<Boolean> editSpace(@RequestBody SpaceEditRequest spaceEditRequest, HttpServletRequest request)
+    {
+        if (spaceEditRequest == null || spaceEditRequest.getId() <= 0)
+        {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         // 在此处将实体类和 DTO 进行转换
@@ -194,7 +211,7 @@ public class SpaceController
         Space oldSpace = spaceService.getById(id);
         ThrowUtils.throwIf(oldSpace == null, ErrorCode.NOT_FOUND_ERROR);
         // 仅本人或管理员可编辑
-        spaceService.checkSpaceAuth(loginUser,oldSpace);
+        spaceService.checkSpaceAuth(loginUser, oldSpace);
         // 操作数据库
         boolean result = spaceService.updateById(space);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
@@ -202,7 +219,8 @@ public class SpaceController
     }
 
     @GetMapping("/list/level")
-    public BaseResponse<List<SpaceLevel>> listSpaceLevel() {
+    public BaseResponse<List<SpaceLevel>> listSpaceLevel()
+    {
         List<SpaceLevel> spaceLevelList = Arrays.stream(SpaceLevelEnum.values()) // 获取所有枚举
                 .map(spaceLevelEnum -> new SpaceLevel(
                         spaceLevelEnum.getValue(),

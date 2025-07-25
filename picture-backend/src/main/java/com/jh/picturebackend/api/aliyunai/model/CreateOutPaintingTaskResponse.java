@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateOutPaintingTaskResponse {
+public class CreateOutPaintingTaskResponse
+{
 
     private Output output;
 
@@ -15,7 +16,8 @@ public class CreateOutPaintingTaskResponse {
      * 表示任务的输出信息
      */
     @Data
-    public static class Output {
+    public static class Output
+    {
 
         /**
          * 任务 ID

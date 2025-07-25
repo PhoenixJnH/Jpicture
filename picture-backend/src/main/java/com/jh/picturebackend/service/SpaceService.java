@@ -12,11 +12,12 @@ import com.jh.picturebackend.model.vo.SpaceVO;
 import javax.servlet.http.HttpServletRequest;
 
 /**
-* @author jh
-* @description 针对表【space(空间)】的数据库操作Service
-* @createDate 2025-07-20 21:18:31
-*/
-public interface SpaceService extends IService<Space> {
+ * @author jh
+ * @description 针对表【space(空间)】的数据库操作Service
+ * @createDate 2025-07-20 21:18:31
+ */
+public interface SpaceService extends IService<Space>
+{
 
     /**
      * 创建空间
@@ -70,8 +71,7 @@ public interface SpaceService extends IService<Space> {
 
     /**
      * 校验空间权限
-     *
      */
-    void checkSpaceAuth(User user,Space space);
+    void checkSpaceAuth(User user, Space space);
 
 }

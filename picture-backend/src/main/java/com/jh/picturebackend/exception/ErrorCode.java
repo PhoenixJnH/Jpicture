@@ -3,7 +3,8 @@ package com.jh.picturebackend.exception;
 import lombok.Getter;
 
 @Getter
-public enum ErrorCode {
+public enum ErrorCode
+{
 
     SUCCESS(0, "ok"),
     PARAMS_ERROR(40000, "请求参数错误"),
@@ -24,7 +25,8 @@ public enum ErrorCode {
      */
     private final String message;
 
-    ErrorCode(int code, String message) {
+    ErrorCode(int code, String message)
+    {
         this.code = code;
         this.message = message;
     }

@@ -40,16 +40,19 @@ public class AuthInterceptor
         User loginUser = userService.getLoginUser(request);
         UserRoleEnum mustRoleEnum = UserRoleEnum.getEnumByValue(mustRole);
         // 如果不需要权限，放行
-        if (mustRoleEnum == null) {
+        if (mustRoleEnum == null)
+        {
             return joinPoint.proceed();
         }
         // 以下的代码：必须有权限，才会通过
         UserRoleEnum userRoleEnum = UserRoleEnum.getEnumByValue(loginUser.getUserRole());
-        if (userRoleEnum == null) {
+        if (userRoleEnum == null)
+        {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         // 要求必须有管理员权限，但用户没有管理员权限，拒绝
-        if (UserRoleEnum.ADMIN.equals(mustRoleEnum) && !UserRoleEnum.ADMIN.equals(userRoleEnum)) {
+        if (UserRoleEnum.ADMIN.equals(mustRoleEnum) && !UserRoleEnum.ADMIN.equals(userRoleEnum))
+        {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         // 通过权限校验，放行

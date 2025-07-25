@@ -27,10 +27,12 @@ public class UrlPictureUpload extends PictureUploadTemplate
         String fileUrl = (String) inputSource;
         ThrowUtils.throwIf(StrUtil.isBlank(fileUrl), ErrorCode.PARAMS_ERROR, "文件地址不能为空");
 
-        try {
+        try
+        {
             // 1. 验证 URL 格式
             new URL(fileUrl); // 验证是否是合法的 URL
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException e)
+        {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "文件地址格式不正确");
         }
 
@@ -40,15 +42,18 @@ public class UrlPictureUpload extends PictureUploadTemplate
 
         // 3. 发送 HEAD 请求以验证文件是否存在
         HttpResponse response = null;
-        try {
+        try
+        {
             response = HttpUtil.createRequest(Method.HEAD, fileUrl).execute();
             // 未正常返回，无需执行其他判断
-            if (response.getStatus() != HttpStatus.HTTP_OK) {
+            if (response.getStatus() != HttpStatus.HTTP_OK)
+            {
                 return;
             }
             // 4. 校验文件类型
             String contentType = response.header("Content-Type");
-            if (StrUtil.isNotBlank(contentType)) {
+            if (StrUtil.isNotBlank(contentType))
+            {
                 // 允许的图片类型
                 final List<String> ALLOW_CONTENT_TYPES = Arrays.asList("image/jpeg", "image/jpg", "image/png", "image/webp");
                 ThrowUtils.throwIf(!ALLOW_CONTENT_TYPES.contains(contentType.toLowerCase()),
@@ -56,17 +61,22 @@ public class UrlPictureUpload extends PictureUploadTemplate
             }
             // 5. 校验文件大小
             String contentLengthStr = response.header("Content-Length");
-            if (StrUtil.isNotBlank(contentLengthStr)) {
-                try {
+            if (StrUtil.isNotBlank(contentLengthStr))
+            {
+                try
+                {
                     long contentLength = Long.parseLong(contentLengthStr);
                     final long TWO_MB = 2 * 1024 * 1024L; // 限制文件大小为 2MB
                     ThrowUtils.throwIf(contentLength > TWO_MB, ErrorCode.PARAMS_ERROR, "文件大小不能超过 2M");
-                } catch (NumberFormatException e) {
+                } catch (NumberFormatException e)
+                {
                     throw new BusinessException(ErrorCode.PARAMS_ERROR, "文件大小格式错误");
                 }
             }
-        } finally {
-            if (response != null) {
+        } finally
+        {
+            if (response != null)
+            {
                 response.close();
             }
         }

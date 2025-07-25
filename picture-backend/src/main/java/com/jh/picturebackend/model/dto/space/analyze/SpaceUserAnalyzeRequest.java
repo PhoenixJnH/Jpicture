@@ -5,7 +5,8 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class SpaceUserAnalyzeRequest extends SpaceAnalyzeRequest {
+public class SpaceUserAnalyzeRequest extends SpaceAnalyzeRequest
+{
 
     /**
      * 用户 ID

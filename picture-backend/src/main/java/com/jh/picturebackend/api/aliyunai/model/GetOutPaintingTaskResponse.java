@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetOutPaintingTaskResponse {
+public class GetOutPaintingTaskResponse
+{
 
     /**
      * 请求唯一标识
@@ -23,7 +24,8 @@ public class GetOutPaintingTaskResponse {
      * 表示任务的输出信息
      */
     @Data
-    public static class Output {
+    public static class Output
+    {
 
         /**
          * 任务 ID
@@ -88,7 +90,8 @@ public class GetOutPaintingTaskResponse {
      * 表示任务的统计信息
      */
     @Data
-    public static class TaskMetrics {
+    public static class TaskMetrics
+    {
 
         /**
          * 总任务数

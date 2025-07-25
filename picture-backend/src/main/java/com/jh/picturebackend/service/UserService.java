@@ -89,6 +89,7 @@ public interface UserService extends IService<User>
 
     /**
      * 获取查询条件
+     *
      * @param userQueryRequest
      * @return
      */

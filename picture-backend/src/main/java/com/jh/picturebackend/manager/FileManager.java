@@ -24,12 +24,13 @@ import java.util.List;
 @Service
 @Slf4j
 @Deprecated
-public class FileManager {  
-  
+public class FileManager
+{
+
     @Resource
     private CosClientConfig cosClientConfig;
-  
-    @Resource  
+
+    @Resource
     private CosManager cosManager;
 
     /**
@@ -50,7 +51,8 @@ public class FileManager {
                 FileUtil.getSuffix(originFilename));
         String uploadPath = String.format("/%s/%s", uploadPathPrefix, uploadFilename);
         File file = null;
-        try {
+        try
+        {
             // 创建临时文件
             file = File.createTempFile(uploadPath, null);
             multipartFile.transferTo(file);
@@ -70,17 +72,19 @@ public class FileManager {
             uploadPictureResult.setPicSize(FileUtil.size(file));
             uploadPictureResult.setUrl(cosClientConfig.getHost() + "/" + uploadPath);
             return uploadPictureResult;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             log.error("图片上传到对象存储失败", e);
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "上传失败");
-        } finally {
+        } finally
+        {
             this.deleteTempFile(file);
         }
     }
 
     private void validPicture(MultipartFile multipartFile)
     {
-        ThrowUtils.throwIf(multipartFile == null, ErrorCode.PARAMS_ERROR,"文件不能为空");
+        ThrowUtils.throwIf(multipartFile == null, ErrorCode.PARAMS_ERROR, "文件不能为空");
         // 1. 校验文件大小
         long fileSize = multipartFile.getSize();
         final long ONE_M = 1024 * 1024L;
@@ -95,13 +99,16 @@ public class FileManager {
     /**
      * 删除临时文件
      */
-    public void deleteTempFile(File file) {
-        if (file == null) {
+    public void deleteTempFile(File file)
+    {
+        if (file == null)
+        {
             return;
         }
         // 删除临时文件
         boolean deleteResult = file.delete();
-        if (!deleteResult) {
+        if (!deleteResult)
+        {
             log.error("file delete error, filepath = {}", file.getAbsolutePath());
         }
     }

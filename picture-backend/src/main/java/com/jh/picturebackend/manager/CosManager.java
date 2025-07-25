@@ -31,7 +31,8 @@ public class CosManager
      * @param key  唯一键
      * @param file 文件
      */
-    public PutObjectResult putObject(String key, File file) {
+    public PutObjectResult putObject(String key, File file)
+    {
         PutObjectRequest putObjectRequest = new PutObjectRequest(cosClientConfig.getBucket(), key,
                 file);
         return cosClient.putObject(putObjectRequest);
@@ -42,7 +43,8 @@ public class CosManager
      *
      * @param key 唯一键
      */
-    public COSObject getObject(String key) {
+    public COSObject getObject(String key)
+    {
         GetObjectRequest getObjectRequest = new GetObjectRequest(cosClientConfig.getBucket(), key);
         return cosClient.getObject(getObjectRequest);
     }
@@ -53,7 +55,8 @@ public class CosManager
      * @param key  唯一键
      * @param file 文件
      */
-    public PutObjectResult putPictureObject(String key, File file) {
+    public PutObjectResult putPictureObject(String key, File file)
+    {
         PutObjectRequest putObjectRequest = new PutObjectRequest(cosClientConfig.getBucket(), key,
                 file);
         // 对图片进行处理（获取基本信息也被视作为一种处理）
@@ -69,7 +72,8 @@ public class CosManager
         compressRule.setFileId(webpKey);
         rules.add(compressRule);
         // 缩略图处理，仅对 > 20 KB 的图片生成缩略图
-        if (file.length() > 2 * 1024) {
+        if (file.length() > 2 * 1024)
+        {
             PicOperations.Rule thumbnailRule = new PicOperations.Rule();
             thumbnailRule.setBucket(cosClientConfig.getBucket());
             String thumbnailKey = FileUtil.mainName(key) + "_thumbnail." + FileUtil.getSuffix(key);
